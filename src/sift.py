@@ -50,7 +50,9 @@ def correspondencias(img1, img2, qtd_match=None, k_best=2, kp1=None, kp2=None, d
 
     bf = cv.BFMatcher()
     correspondencias = bf.knnMatch(des1, des2, k=k_best)
-
+## Correspondência retorna as duas melhores correspondencias (k=2)
+## Abaixo ele considera os melhores pontos, aqueles que são menores que 70% da segunda melhores correspondências.
+## Por isso o primeiro ponto é igual, ou seja, para cada ponto ele retorna as duas melhores correspondências.
     # Apply ratio test
     good = []
     for m, n in correspondencias:
