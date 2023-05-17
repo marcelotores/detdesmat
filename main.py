@@ -1,9 +1,27 @@
 import cv2 as cv
+import numpy as np
 from matplotlib import pyplot as plt
 from src import sift
+from PIL import Image
 
 img1 = cv.imread('imagens/p5.jpg')
 img2 = cv.imread('imagens/1.jpg')
+
+imagem_original_pil = Image.open(r"imagens/1.jpg")
+imagem_original_pil_num = np.array(imagem_original_pil)
+imagem_original_numpy = cv.imread("imagens/1.jpg")
+
+kp1_pil_num, des1_pil_num = sift.sift_detectores_e_descritores(imagem_original_pil_num, 10)
+kp1_num, des1_num = sift.sift_detectores_e_descritores(imagem_original_numpy, 10)
+print(len(kp1_pil_num))
+print(len(kp1_num))
+
+
+img1=cv.drawKeypoints(imagem_original_pil_num,kp1_pil_num,imagem_original_pil_num)
+img2=cv.drawKeypoints(imagem_original_numpy,kp1_num,imagem_original_numpy)
+cv.imshow(f'pil{len(kp1_pil_num)}', img1)
+cv.imshow(f'num{len(kp1_num)}', img2)
+cv.waitKey(0)
 
 kp1, des1 = sift.sift_detectores_e_descritores(img1)
 kp2, des2 = sift.sift_detectores_e_descritores(img2)
@@ -64,8 +82,8 @@ imagem_out, good, kp1, kp2 = sift.correspondencias(img1, img2, kp1=kp1, kp2=kp2,
 #  p2 = kp2[match.trainIdx].pt
 #print(kp1[0])
 #print(kp2[0])
-cv.imshow(f'{len(kp1)}:{len(kp2)} -- {len(good)}', imagem_out)
-cv.waitKey(0)
+#cv.imshow(f'{len(kp1)}:{len(kp2)} -- {len(good)}', imagem_out)
+#cv.waitKey(0)
 #plt.imshow(imagem_out)
 #plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
 #plt.show()

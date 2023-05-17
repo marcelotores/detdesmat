@@ -9,7 +9,7 @@ from src import sift
 
 # Opens a image in RGB mode
 imagem_original_pil = Image.open(r"../imagens/1.jpg")
-imagem_original_numpy = cv.imread("../imagens/1.jpg")
+#imagem_original_numpy = cv.imread("../imagens/1.jpg")
 #img = cv.imread("../imagens/1.jpg")
 
 width, height = imagem_original_pil.size
@@ -26,7 +26,11 @@ for left in range(0, width, aument):
         if bottom > height:
             break
         patch = ut.corta(imagem_original_pil, left, top, right, bottom)
+
+        ## Convertendo imagens
         patch_numpy = np.array(patch)
+        imagem_original_numpy = np.array(imagem_original_pil)
+
         ## Calculando descritores
         kp1, des1 = sift.sift_detectores_e_descritores(patch_numpy)
         kp2, des2 = sift.sift_detectores_e_descritores(imagem_original_numpy)
