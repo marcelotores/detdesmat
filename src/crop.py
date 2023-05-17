@@ -3,25 +3,20 @@ from PIL import Image
 from matplotlib import pyplot as plt
 from src import utilidades as ut
 import cv2 as cv
+import numpy as np
+from src import sift
 
-
-def corta(im, left, top, right, bottom):
-
-    im1 = im.crop((left, top, right, bottom))
-    return im1
-    #im1.show()
 
 # Opens a image in RGB mode
-im = Image.open(r"../imagens/1.jpg")
-img = cv.imread("../imagens/1.jpg")
-#im.save("teste/geeks.jpg")
-# Size of the image in pixels (size of original image)
-# (This is not mandatory)
-width, height = im.size
+imagem_original_pil = Image.open(r"../imagens/1.jpg")
+imagem_original_numpy = cv.imread("../imagens/1.jpg")
+#img = cv.imread("../imagens/1.jpg")
+
+width, height = imagem_original_pil.size
 patch_width = 85
 patch_height = 85
 aument = 20
-
+count = 0
 for left in range(0, width, aument):
     right = left + patch_width
     if right > width:
@@ -30,10 +25,18 @@ for left in range(0, width, aument):
         bottom = top + patch_height
         if bottom > height:
             break
-        im1 = corta(im, left, top, right, bottom)
+        patch = ut.corta(imagem_original_pil, left, top, right, bottom)
+        patch_numpy = np.array(patch)
+        ## Calculando descritores
+        kp1, des1 = sift.sift_detectores_e_descritores(patch_numpy)
+        kp2, des2 = sift.sift_detectores_e_descritores(imagem_original_numpy)
 
-        #im1.save(f"teste/{left}-{top}-{right}-{bottom}.jpg")
-        #print(left, top, right, bottom)
+        ## Calculando Correspondências
+        imagem_out, good, kp1, kp2 = sift.correspondencias(patch_numpy, imagem_original_numpy, kp1=kp1, kp2=kp2,
+                                                                             des1=des1, des2=des2)
+        print(f'Patch {count} ---> {len(kp1)}:{len(kp2)} -- {len(good)}')
+        #patch.save(f"../imagens/patchs/Patch {count}.jpg")
+        count+=1
 
 
 

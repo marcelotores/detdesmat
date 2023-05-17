@@ -25,3 +25,8 @@ def pontos(image, x, y, cor='B', tamanho=1):
     #cv.waitKey(0)
 
     return image
+
+def corta(im, left, top, right, bottom):
+
+    im1 = im.crop((left, top, right, bottom))
+    return im1
