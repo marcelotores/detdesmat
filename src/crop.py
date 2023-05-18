@@ -38,12 +38,32 @@ for left in range(0, width, aument):
         ## Calculando Correspondências
         imagem_out, good, kp1, kp2 = sift.correspondencias(patch_numpy, imagem_original_numpy, kp1=kp1, kp2=kp2,
                                                                              des1=des1, des2=des2)
-        print(f'Patch {count} ---> {len(kp1)}:{len(kp2)} -- {len(good)}')
+        print('##################################################################')
+        print(f'#### Patch {count} ---> {len(kp1)}:{len(kp2)} -- {len(good)} ####')
+
+        ## Calculo da distancia mínima, máxima e média
+        if len(good) != 0:
+            good_np = np.array(good)
+            good_np = good_np.reshape(good_np.shape[0], )
+            arr_distance = np.array([])
+            # app_arr = np.append(arr, [13,15,17])
+            count_0 = 0
+            for g in good_np:
+                arr_distance = np.append(arr_distance, g.distance)
+                if g.distance == 0:
+                    count_0 += 1
+            print('Repetibilidade (matching/min[qtd_kp1, qtd_kp2]): ', good_np.shape[0]/(min(len(kp1), len(kp2))))
+            print('Min: ', np.min(arr_distance))
+            print('Máx: ', np.max(arr_distance))
+            print('Méd: ', np.average(arr_distance))
+            print('Quantidade de correspondências Zeros: ', count_0)
+
         #patch.save(f"../imagens/patchs/Patch {count}.jpg")
         count+=1
 
 
-
+cv.imshow(f'{len(kp1)}:{len(kp2)} -- {len(good)}', imagem_out)
+cv.waitKey(0)
 
 #plt.imshow(img)
 #plt.imshow(img2)
