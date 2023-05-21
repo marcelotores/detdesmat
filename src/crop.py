@@ -5,10 +5,14 @@ from src import utilidades as ut
 import cv2 as cv
 import numpy as np
 from src import sift
+import src.plots as pl
 
 
 # Opens a image in RGB mode
-imagem_original_pil = Image.open(r"../imagens/1.jpg")
+#imagem_original_pil = Image.open(r"../imagens/1.jpg")
+#imagem_original_pil = Image.open(r"../imagens/descarga_05.jpg")
+imagem_original_pil = Image.open(r"../imagens/Trinca_06.jpg")
+
 #imagem_original_numpy = cv.imread("../imagens/1.jpg")
 #img = cv.imread("../imagens/1.jpg")
 
@@ -19,6 +23,7 @@ aument = 20
 count = 0
 rep = []
 goods = []
+distance = []
 for left in range(0, width, aument):
     right = left + patch_width
     if right > width:
@@ -61,12 +66,14 @@ for left in range(0, width, aument):
                 if g.distance == 0:
                     count_0 += 1
 
-
+            distance.append(np.average(arr_distance))
+            #distance.append(arr_distance)
             print('Repetibilidade (matching/min[qtd_kp1, qtd_kp2]): ', repetitibilidade)
             print('Min: ', np.min(arr_distance))
             print('Máx: ', np.max(arr_distance))
             print('Méd: ', np.average(arr_distance))
-            print('Quantidade de correspondências Zeros: ', count_0)
+            print('Quantidade de correspondências com Distancia Zero: ', count_0)
+
             # with open("hello.txt", "a") as my_file:
             #     my_file.write(f'Repetibilidade (matching/min[qtd_kp1, qtd_kp2]): {repetitibilidade}\n')
             #     my_file.write(f'Min: {np.min(arr_distance)}\n')
@@ -76,20 +83,28 @@ for left in range(0, width, aument):
         #Image.fromarray(imagem_out).save(f"../imagens/patchs/Patch {count}.jpg")
         count+=1
 
-#cv.imshow(f'{len(kp1)}:{len(kp2)} -- {len(good)}', imagem_out)
-#cv.waitKey(0)
+
+with open("exp3.py", "a") as my_file:
+    my_file.write(f'repa = {rep}\n')
+    my_file.write(f'goodsa = {goods}\n')
+    my_file.write(f'distance = {distance}')
+
+with open("exp3.txt", "a") as my_file:
+    my_file.write(f'Quantidade de Patchs = {count}\n')
+    my_file.write(f'Tamanho Imagem Original = {imagem_original_numpy.shape}\n')
+    my_file.write(f'Tamanho de cada Patch = {patch_numpy.shape}')
+
+#pl.distancia(np.array(distance))
+#pl.cor(np.array(goods))
+#pl.rep(np.array(rep))
 
 
 
-media = sum(rep) / len(rep)
-print('Media Rep: ', media)
-print(goods)
-plt.plot(goods)
-plt.title('Quantidade de Correspondências por Imagem')
-plt.xlabel('Imagem')
-plt.ylabel('Qtd. de Correspondências')
-plt.show()
-#plt.imshow(img)
-#plt.imshow(img2)
-#plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
-#plt.show()
+
+
+
+
+
+
+#media = sum(rep) / len(rep)
+#print('Media Rep: ', media)
