@@ -18,8 +18,11 @@ Exemplo:
 for g in good:
     print(g[0], kp1[g[0].queryIdx], kp2[g[0].trainIdx])
     print(g[0], des1[g[0].queryIdx], g[0].trainIdx)
+## 
 
 ```
+Observe no código acima que o kp1 é uma lista de pontos de interesse. Dessa forma, pode-se passar um número como índice, e ele retornará aquele ponto correspondente. Assim, você pode usar o `g[0].queryIdx` para identificar o índice do keypoint naquela correspondência. Experimente usar também `kp1[g[0].queryIdx].pt` para retornar as coordenasa do ponto.
+
 trainIdx -> Retorna o índice do keypoint da imagem 2.
 
 Observe que duas uma correspondência ocorre entre duas imagens. Dessa forma a primeira imagem pe chamada de query, e a segunda de train.
