@@ -15,7 +15,7 @@ def pontos(image, x, y, cor='B', tamanho=1):
         color = (0, 0, 255)
 
     # Line thickness of 2 px
-    thickness = 2
+    thickness = 1
 
     # Draw a circle with blue line borders of thickness of 2 px
     image = cv.circle(image, center_coordinates, radius, color, thickness)
