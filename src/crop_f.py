@@ -5,10 +5,12 @@ from src import utilidades as ut
 import numpy as np
 from src import sift
 import src.plots as pl
+from datetime import datetime
 
 
 # Opens a image in RGB mode
 imagem_original_pil = Image.open(r"../imagens/1.jpg")
+
 #imagem_original_pil = Image.open(r"../imagens/descarga_05.jpg")
 #imagem_original_pil = Image.open(r"../imagens/Trinca_06.jpg")
 
@@ -17,7 +19,14 @@ imagem_original_pil = Image.open(r"../imagens/1.jpg")
 
 
 def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20):
+    """
 
+    :param imagem_original_pil: uma imagem do tipo Image (PIL)
+    :param patch_width: largura do patch
+    :param patch_height: altura do patch
+    :param aument: A distância que cada patch será arrastado para ser cortado da imagem original
+    :return: Lista de Repetibilidade e das Correspondências
+    """
     width, height = imagem_original_pil.size
 
     count = 0
@@ -35,7 +44,7 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20):
                 break
             patch = ut.corta(imagem_original_pil, left, top, right, bottom)
 
-            ## Convertendo imagens
+            ## Convertendo imagens para numpy
             patch_numpy = np.array(patch)
             imagem_original_numpy = np.array(imagem_original_pil)
 
@@ -44,21 +53,26 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20):
             kp2, des2 = sift.sift_detectores_e_descritores(imagem_original_numpy)
 
             ## Calculando Correspondências
-            imagem_out, good, kp1, kp2 = sift.correspondencias(patch_numpy, imagem_original_numpy, kp1=kp1, kp2=kp2,
-                                                                                 des1=des1, des2=des2)
+            imagem_out, good, kp1, kp2 = sift.correspondencias(patch_numpy, imagem_original_numpy, kp1=kp1, kp2=kp2, des1=des1, des2=des2)
+
             print('##################################################################')
             print(f'#### Patch {count} ---> {len(kp1)}:{len(kp2)} -- {len(good)} ####')
+
+            ## Colando as correspondências na lista de correspondências
             goods.append(len(good))
+
             # with open("hello.txt", "a") as my_file:
             #     my_file.write('###################################################################\n')
             #     my_file.write(f'#### Patch {count} ---> {len(kp1)}:{len(kp2)} -- {len(good)} ####\n')
 
-            ## Calculo da distancia mínima, máxima e média
+            ## Calculo da distancia mínima, máxima e média entre cada correspondência
             if len(good) != 0:
                 good_np = np.array(good)
                 good_np = good_np.reshape(good_np.shape[0], )
                 arr_distance = np.array([])
                 repetitibilidade = good_np.shape[0] / (min(len(kp1), len(kp2)))
+
+                ## Lista de repetitibilidade de cada key point
                 rep.append(repetitibilidade)
                 # app_arr = np.append(arr, [13,15,17])
                 count_0 = 0
@@ -67,6 +81,7 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20):
                     if g.distance == 0:
                         count_0 += 1
 
+                ## Lista de média de distância entre as correspondências
                 distance.append(np.average(arr_distance))
                 #distance.append(arr_distance)
                 print('Repetibilidade (matching/min[qtd_kp1, qtd_kp2]): ', repetitibilidade)
@@ -85,27 +100,25 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20):
             count+=1
 
 
-    with open("info.py", "a") as my_file:
+    ## Gerará um arquivo info.py com a lista de repetitibilidade entre as correspondências, as correspondências e a distância média
+
+    nome_arquivo = datetime.now().strftime("%d%m%H%M%S")
+
+    with open(f"{nome_arquivo}.py", "a") as my_file:
         my_file.write(f'repa = {rep}\n')
         my_file.write(f'goodsa = {goods}\n')
         my_file.write(f'distance = {distance}')
 
-    with open("info.txt", "a") as my_file:
+    with open(f"{nome_arquivo}.txt", "a") as my_file:
         my_file.write(f'Quantidade de Patchs = {count}\n')
         my_file.write(f'Tamanho Imagem Original = {imagem_original_numpy.shape}\n')
         my_file.write(f'Tamanho de cada Patch = {patch_numpy.shape}')
 
-#pl.distancia(np.array(distance))
-#pl.cor(np.array(goods))
-#pl.rep(np.array(rep))
+    return np.array(rep), np.array(goods)
 
+imagem_original_pil = Image.open(r"../imagens/1.jpg")
 
+rep, good = crop(imagem_original_pil, 85, 85, 20)
 
-
-
-
-
-
-
-#media = sum(rep) / len(rep)
-#print('Media Rep: ', media)
+plt.hist(rep, rwidth=0.9)
+plt.show()

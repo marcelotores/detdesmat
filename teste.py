@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from src import utilidades as ut, sift
 from PIL import Image
 import numpy as np
@@ -5,6 +7,9 @@ import cv2 as cv
 
 imagem_original_pil = Image.open(r"imagens/1.jpg")
 
+nome_arquivo = datetime.now().strftime("%d%m%H%M%S")
+print(nome_arquivo)
+exit()
 
 left, top, right, bottom = 302, 151, 308, 153
 
