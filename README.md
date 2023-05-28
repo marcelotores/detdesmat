@@ -26,3 +26,10 @@ Observe no código acima que o kp1 é uma lista de pontos de interesse. Dessa fo
 trainIdx -> Retorna o índice do keypoint da imagem 2.
 
 Observe que duas uma correspondência ocorre entre duas imagens. Dessa forma a primeira imagem pe chamada de query, e a segunda de train.
+
+
+-------------------
+
+Toda Imagem é uma matriz na forma de 
+
+mat[linha, coluna, canal]

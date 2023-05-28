@@ -64,6 +64,7 @@ def correspondencias(img1, img2, qtd_match=None, k_best=2, kp1=None, kp2=None, d
     if qtd_match is not None:
         image_out = cv.drawMatchesKnn(img1, kp1, img2, kp2, good[:qtd_match], None,
                                       flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+        return image_out, good[:qtd_match], kp1, kp2
     else:
         image_out = cv.drawMatchesKnn(img1, kp1, img2, kp2, good, None,
                                       flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)

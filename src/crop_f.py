@@ -6,19 +6,10 @@ import numpy as np
 from src import sift
 import src.plots as pl
 from datetime import datetime
+from src.encaixa import encaix
+import cv2 as cv
 
-
-# Opens a image in RGB mode
-imagem_original_pil = Image.open(r"../imagens/1.jpg")
-
-#imagem_original_pil = Image.open(r"../imagens/descarga_05.jpg")
-#imagem_original_pil = Image.open(r"../imagens/Trinca_06.jpg")
-
-#imagem_original_numpy = cv.imread("../imagens/1.jpg")
-#img = cv.imread("../imagens/1.jpg")
-
-
-def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20):
+def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20, n_arquivo=None):
     """
 
     :param imagem_original_pil: uma imagem do tipo Image (PIL)
@@ -33,6 +24,7 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20):
     rep = []
     goods = []
     distance = []
+    novas_imagens = []
 
     for left in range(0, width, aument):
         right = left + patch_width
@@ -43,6 +35,10 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20):
             if bottom > height:
                 break
             patch = ut.corta(imagem_original_pil, left, top, right, bottom)
+            ## Imagem em jpg # Apagar depois
+            patch.save(f"/home/marcelo/projetos/mestrado/pesquisa/detdesmat/imagens/patchs/{count}.jpg")
+            patch = cv.imread(f"/home/marcelo/projetos/mestrado/pesquisa/detdesmat/imagens/patchs/{count}.jpg")
+            ##
 
             ## Convertendo imagens para numpy
             patch_numpy = np.array(patch)
@@ -54,6 +50,19 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20):
 
             ## Calculando Correspondências
             imagem_out, good, kp1, kp2 = sift.correspondencias(patch_numpy, imagem_original_numpy, kp1=kp1, kp2=kp2, des1=des1, des2=des2)
+
+            ################
+            novo_top, novo_bottom, novo_left, novo_right, distancia_total = \
+                encaix(good, kp1, kp2, imagem_original_numpy, patch_numpy, left, right, top, bottom)
+
+
+
+            #Image.fromarray(imagem_original_numpy).save(f"../imagens/encaixa/{count}.jpg")
+            #Image.fromarray(imagem_original_numpy).save(f"../imagens/patchs/Patch {count}.jpg")
+
+            novas_imagens.append([novo_left, novo_top, novo_right, novo_bottom, distancia_total])
+
+            ################
 
             print('##################################################################')
             print(f'#### Patch {count} ---> {len(kp1)}:{len(kp2)} -- {len(good)} ####')
@@ -84,11 +93,11 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20):
                 ## Lista de média de distância entre as correspondências
                 distance.append(np.average(arr_distance))
                 #distance.append(arr_distance)
-                print('Repetibilidade (matching/min[qtd_kp1, qtd_kp2]): ', repetitibilidade)
-                print('Min: ', np.min(arr_distance))
-                print('Máx: ', np.max(arr_distance))
-                print('Méd: ', np.average(arr_distance))
-                print('Quantidade de correspondências com Distancia Zero: ', count_0)
+                ##print('Repetibilidade (matching/min[qtd_kp1, qtd_kp2]): ', repetitibilidade)
+                ##print('Min: ', np.min(arr_distance))
+                ##print('Máx: ', np.max(arr_distance))
+                ##print('Méd: ', np.average(arr_distance))
+                ##print('Quantidade de correspondências com Distancia Zero: ', count_0)
 
                 # with open("hello.txt", "a") as my_file:
                 #     my_file.write(f'Repetibilidade (matching/min[qtd_kp1, qtd_kp2]): {repetitibilidade}\n')
@@ -102,23 +111,27 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20):
 
     ## Gerará um arquivo info.py com a lista de repetitibilidade entre as correspondências, as correspondências e a distância média
 
-    nome_arquivo = datetime.now().strftime("%d%m%H%M%S")
+    if n_arquivo:
+        nome_arquivo = n_arquivo
+    else:
+        nome_arquivo = datetime.now().strftime("%d%m%H%M%S")
 
-    with open(f"{nome_arquivo}.py", "a") as my_file:
-        my_file.write(f'repa = {rep}\n')
-        my_file.write(f'goodsa = {goods}\n')
-        my_file.write(f'distance = {distance}')
+    with open(f"rep-good-{nome_arquivo}.py", "a") as my_file:
+        my_file.write(f'rep = {rep}\n')
+        my_file.write(f'good = {goods}\n')
+        my_file.write(f'distance = {distance}\n')
+        my_file.write(f'novas_imagens = {novas_imagens}')
 
-    with open(f"{nome_arquivo}.txt", "a") as my_file:
+    with open(f"info-{nome_arquivo}.txt", "a") as my_file:
         my_file.write(f'Quantidade de Patchs = {count}\n')
         my_file.write(f'Tamanho Imagem Original = {imagem_original_numpy.shape}\n')
-        my_file.write(f'Tamanho de cada Patch = {patch_numpy.shape}')
+        my_file.write(f'Tamanho de cada Patch = {patch_numpy.shape}\n')
 
-    return np.array(rep), np.array(goods)
+    return np.array(rep), np.array(goods), novas_imagens
 
-imagem_original_pil = Image.open(r"../imagens/1.jpg")
+#imagem_original_pil = Image.open(r"../imagens/1.jpg")
 
-rep, good = crop(imagem_original_pil, 85, 85, 20)
+#rep, good = crop(imagem_original_pil, 85, 85, 20)
 
-plt.hist(rep, rwidth=0.9)
-plt.show()
+#plt.hist(rep, rwidth=0.9)
+#plt.show()

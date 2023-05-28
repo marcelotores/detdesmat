@@ -1,0 +1,6 @@
+Quantidade de Patchs = 200
+Tamanho Imagem Original = (355, 696, 3)
+Tamanho de cada Patch = (200, 200, 3)
+Quantidade de Patchs = 200
+Tamanho Imagem Original = (355, 696, 3)
+Tamanho de cada Patch = (200, 200, 3)
