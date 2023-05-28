@@ -28,6 +28,9 @@ def encaix(good, kp1, kp2, imagem_original_numpy, patch_numpy, left, right, top,
     novo_right = right + dif_x
     novo_top = top + dif_y
     novo_bottom = bottom + dif_y
+    print(f'novo_bottom = {bottom} + {dif_y}')
+    print(novo_bottom)
+    print(int(novo_bottom))
 
     ## Apenas dar destaque a cor do patch
     ##patch_numpy = cv.cvtColor(patch_numpy, cv.COLOR_BGR2RGB)

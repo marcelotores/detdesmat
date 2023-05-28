@@ -35,14 +35,13 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20, n_arqu
             if bottom > height:
                 break
             patch = ut.corta(imagem_original_pil, left, top, right, bottom)
-            ## Imagem em jpg # Apagar depois
-            patch.save(f"/home/marcelo/projetos/mestrado/pesquisa/detdesmat/imagens/patchs/{count}.jpg")
-            patch = cv.imread(f"/home/marcelo/projetos/mestrado/pesquisa/detdesmat/imagens/patchs/{count}.jpg")
-            ##
+
 
             ## Convertendo imagens para numpy
-            patch_numpy = np.array(patch)
-            imagem_original_numpy = np.array(imagem_original_pil)
+            patch_numpy = ut.ndarray_pil(patch, False)
+            imagem_original_numpy = ut.ndarray_pil(imagem_original_pil, False)
+            #patch_numpy = np.array(patch)
+            #imagem_original_numpy = np.array(imagem_original_pil)
 
             ## Calculando descritores
             kp1, des1 = sift.sift_detectores_e_descritores(patch_numpy)
@@ -52,10 +51,16 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20, n_arqu
             imagem_out, good, kp1, kp2 = sift.correspondencias(patch_numpy, imagem_original_numpy, kp1=kp1, kp2=kp2, des1=des1, des2=des2)
 
             ################
-            novo_top, novo_bottom, novo_left, novo_right, distancia_total = \
-                encaix(good, kp1, kp2, imagem_original_numpy, patch_numpy, left, right, top, bottom)
+            novo_top, novo_bottom, novo_left, novo_right, distancia_total = encaix(good, kp1, kp2, imagem_original_numpy, patch_numpy, left, right, top, bottom)
+            print(left, right, top, bottom)
+            print(novo_left, novo_right, novo_top, novo_bottom)
 
+            novas_imagens.append([novo_left, novo_top, novo_right, novo_bottom, distancia_total])
+            ## Apenas dar destaque a cor do patch
+            patch_numpy = cv.cvtColor(patch_numpy, cv.COLOR_BGR2RGB)
 
+            imagem_original_numpy[int(novo_top):int(novo_bottom), int(novo_left):int(novo_right)] = patch_numpy
+            ##cv.imwrite(f"/home/marcelo/projetos/mestrado/pesquisa/detdesmat/imagens/encaixa/{count}.jpg", imagem_original_numpy)
 
             #Image.fromarray(imagem_original_numpy).save(f"../imagens/encaixa/{count}.jpg")
             #Image.fromarray(imagem_original_numpy).save(f"../imagens/patchs/Patch {count}.jpg")
