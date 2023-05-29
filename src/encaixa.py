@@ -24,13 +24,15 @@ def encaix(good, kp1, kp2, imagem_original_numpy, patch_numpy, left, right, top,
     ## Também fazer um gráfico com a soma das distâncias das correspondências para cada imagem
     print(dif_x, dif_y)
     # Atribuindo novos valores para as coordenadas do patch que será encaixado na imagem
-    novo_left = left + dif_x
-    novo_right = right + dif_x
-    novo_top = top + dif_y
-    novo_bottom = bottom + dif_y
-    print(f'novo_bottom = {bottom} + {dif_y}')
-    print(novo_bottom)
-    print(int(novo_bottom))
+    novo_left = left + round(dif_x)
+    novo_right = right + round(dif_x)
+    novo_top = top + round(dif_y)
+    novo_bottom = bottom + round(dif_y)
+    print(f'novo_bottom = {bottom} + {dif_y} = {novo_bottom}')
+    print(f'novo_top = {top} + {dif_y} = {novo_top}')
+
+    print('novo b arr:', int(novo_bottom))
+    print('novo top arr: ', int(novo_top))
 
     ## Apenas dar destaque a cor do patch
     ##patch_numpy = cv.cvtColor(patch_numpy, cv.COLOR_BGR2RGB)

@@ -8,7 +8,7 @@ from src.crop_f import crop
 from src.encaixa import encaix
 
 img_original = cv.imread("imagens/1.jpg")
-rep, good = crop(ut.ndarray_pil(img_original), 85, 85, 20, 'segundo_teste')
+rep, good, novas_imagens_coord = crop(ut.ndarray_pil(img_original), 85, 85, 20, 'segundo_teste')
 exit()
 
 imagem_original_pil = Image.open(r"imagens/1.jpg")

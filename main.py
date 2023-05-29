@@ -16,6 +16,8 @@ img_original = cv.imread("imagens/1.jpg")
 
 imagem_original_pil = Image.open(r"imagens/1.jpg")
 
+print(round(0.519287109375))
+exit()
 
 ruidos = ['s&p', 'speckle']
 

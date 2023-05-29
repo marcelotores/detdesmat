@@ -24,7 +24,7 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20, n_arqu
     rep = []
     goods = []
     distance = []
-    novas_imagens = []
+    novas_imagens_coord = []
 
     for left in range(0, width, aument):
         right = left + patch_width
@@ -55,17 +55,16 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20, n_arqu
             print(left, right, top, bottom)
             print(novo_left, novo_right, novo_top, novo_bottom)
 
-            novas_imagens.append([novo_left, novo_top, novo_right, novo_bottom, distancia_total])
+            novas_imagens_coord.append([novo_left, novo_top, novo_right, novo_bottom, distancia_total])
             ## Apenas dar destaque a cor do patch
             patch_numpy = cv.cvtColor(patch_numpy, cv.COLOR_BGR2RGB)
 
             imagem_original_numpy[int(novo_top):int(novo_bottom), int(novo_left):int(novo_right)] = patch_numpy
-            ##cv.imwrite(f"/home/marcelo/projetos/mestrado/pesquisa/detdesmat/imagens/encaixa/{count}.jpg", imagem_original_numpy)
+            cv.imwrite(f"/home/marcelo/projetos/mestrado/pesquisa/detdesmat/imagens/encaixa/{count}.jpg", imagem_original_numpy)
 
             #Image.fromarray(imagem_original_numpy).save(f"../imagens/encaixa/{count}.jpg")
             #Image.fromarray(imagem_original_numpy).save(f"../imagens/patchs/Patch {count}.jpg")
 
-            novas_imagens.append([novo_left, novo_top, novo_right, novo_bottom, distancia_total])
 
             ################
 
@@ -125,14 +124,14 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20, n_arqu
         my_file.write(f'rep = {rep}\n')
         my_file.write(f'good = {goods}\n')
         my_file.write(f'distance = {distance}\n')
-        my_file.write(f'novas_imagens = {novas_imagens}')
+        my_file.write(f'novas_imagens = {novas_imagens_coord}')
 
     with open(f"info-{nome_arquivo}.txt", "a") as my_file:
         my_file.write(f'Quantidade de Patchs = {count}\n')
         my_file.write(f'Tamanho Imagem Original = {imagem_original_numpy.shape}\n')
         my_file.write(f'Tamanho de cada Patch = {patch_numpy.shape}\n')
 
-    return np.array(rep), np.array(goods), novas_imagens
+    return np.array(rep), np.array(goods), novas_imagens_coord
 
 #imagem_original_pil = Image.open(r"../imagens/1.jpg")
 
