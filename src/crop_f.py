@@ -60,7 +60,7 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20, n_arqu
             #patch_numpy = cv.cvtColor(patch_numpy, cv.COLOR_BGR2RGB)
 
             imagem_original_numpy[int(novo_top):int(novo_bottom), int(novo_left):int(novo_right)] = patch_numpy
-            cv.imwrite(f"/home/marcelo/projetos/mestrado/pesquisa/detdesmat/imagens/encaixa/{count}.jpg", imagem_original_numpy)
+            ##cv.imwrite(f"/home/marcelo/projetos/mestrado/pesquisa/detdesmat/imagens/encaixa/{count}.jpg", imagem_original_numpy)
 
             #Image.fromarray(imagem_original_numpy).save(f"../imagens/encaixa/{count}.jpg")
             #Image.fromarray(imagem_original_numpy).save(f"../imagens/patchs/Patch {count}.jpg")

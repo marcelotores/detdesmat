@@ -33,3 +33,11 @@ def distancia(distance):
     plt.title('Média da distância por correspondência')
     plt.savefig('dist.png')
     #plt.show()
+
+def hist(val, xlabel=None, ylabel=None, title=None,  rwidth=0.9):
+    plt.hist(val, rwidth=0.9)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.title(title)
+    plt.savefig(f"imagens/similarity/{title.split(' ', 1)[0]}.png")
+    plt.show()
