@@ -57,7 +57,7 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20, n_arqu
 
             novas_imagens_coord.append([novo_left, novo_top, novo_right, novo_bottom, distancia_total])
             ## Apenas dar destaque a cor do patch
-            patch_numpy = cv.cvtColor(patch_numpy, cv.COLOR_BGR2RGB)
+            #patch_numpy = cv.cvtColor(patch_numpy, cv.COLOR_BGR2RGB)
 
             imagem_original_numpy[int(novo_top):int(novo_bottom), int(novo_left):int(novo_right)] = patch_numpy
             cv.imwrite(f"/home/marcelo/projetos/mestrado/pesquisa/detdesmat/imagens/encaixa/{count}.jpg", imagem_original_numpy)

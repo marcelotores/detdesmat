@@ -12,6 +12,10 @@ from src import utilidades as ut
 # Dentro do laço, para cada imagem com ruído, já vai calculando a repetibilidade e correspondêncis.
 
 img_original = cv.imread("imagens/1.jpg")
+rep, good, novas_imagens_coord = crop(ut.ndarray_pil(img_original), 85, 85, 20, 'segundo_teste')
+exit()
+
+img_original = cv.imread("imagens/1.jpg")
 #imagem_original_pil = Image.open(r"imagens/1.jpg")
 
 imagem_original_pil = Image.open(r"imagens/1.jpg")
@@ -27,3 +31,7 @@ for r in ruidos:
     noise_img = np.array(255 * noise_img, dtype='uint8')
     #rep, good = crop(ut.ndarray_pil(noise_img), 85, 85, 20, r)
 
+## OU
+
+img_original = cv.imread("imagens/1.jpg")
+rep, good, novas_imagens_coord = crop(ut.ndarray_pil(img_original), 85, 85, 20, 'segundo_teste')
