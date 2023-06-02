@@ -8,9 +8,17 @@ from src.crop_f import crop
 from src.encaixa import encaix
 from os import listdir
 from os.path import join
+import sewar.full_ref as s
 
+img_def = cv.imread("imagens/encaixa_patch/258.jpg")
+img_ori = cv.imread("imagens/patch_manter/258.jpg")
+
+print(s.mse(img_def, img_ori))
+exit()
 
 #img_original = cv.imread("imagens/1.jpg")
+
+
 
 
 path_img_def_caminho = 'imagens/encaixa_patch'

@@ -34,15 +34,15 @@ for filename in listdir(path_img_def_caminho):
 
             img_def = cv.imread(path_img_def_caminho_comp)
             img_original = cv.imread(path_img_def_caminho_original_comp)
-
+            #print(path_img_def_caminho_comp, path_img_def_caminho_original_comp)
             #img_original =
             ## Calculando a similaridade em cada método
-            mse.append(s.mse(img_original, img_original))
+            #mse.append(s.mse(img_def, img_original))
             #rmse.append(s.rmse(img_original, img_def))
             #psnr.append(s.psnr(img_original, img_def))
             #ssim.append(s.ssim(img_original, img_def))
             #uqi.append(s.uqi(img_original, img_def))
-            #msssim.append(s.msssim(img_original, img_def))
+            msssim.append(s.msssim(img_original, img_def))
             #ergas.append(s.ergas(img_original, img_def))
             #scc.append(s.scc(img_original, img_def))
             #rase.append(s.rase(img_original, img_def))
@@ -53,12 +53,12 @@ for filename in listdir(path_img_def_caminho):
 print(mse)
 
 
-plots.hist(mse, 'Similaridade', 'Quantidade de Imagens', f'MSE-2 (Padrão - {s.mse(img_original, img_original)})')
+#plots.hist(mse, 'Similaridade', 'Quantidade de Imagens', f'MSE-2 (Padrão - {s.mse(img_original, img_original)})')
 #plots.hist(rmse, 'Similaridade', 'Quantidade de Imagens', f'RMSE (Padrão - {s.rmse(img_original, img_original)})')
 #plots.hist(psnr, 'Similaridade', 'Quantidade de Imagens', f'PSNR (Padrão - {s.psnr(img_original, img_original)})')
 #plots.hist(ssim, 'Similaridade', 'Quantidade de Imagens', f'SSIM (Padrão - {s.ssim(img_original, img_original)})')
 #plots.hist(uqi, 'Similaridade', 'Quantidade de Imagens', f'UQI (Padrão - {s.uqi(img_original, img_original)})')
-#plots.hist(msssim, 'Similaridade', 'Quantidade de Imagens', f'MSSSIM (Padrão - {s.msssim(img_original, img_original)})')
+plots.hist(msssim, 'Similaridade', 'Quantidade de Imagens', f'MSSSIM (Padrão - {s.msssim(img_original, img_original)})')
 #plots.hist(ergas, 'Similaridade', 'Quantidade de Imagens', f'ERGAS (Padrão - {s.ergas(img_original, img_original)})')
 #plots.hist(scc, 'Similaridade', 'Quantidade de Imagens', f'SCC (Padrão - {s.scc(img_original, img_original)})')
 #plots.hist(rase, 'Similaridade', 'Quantidade de Imagens', f'RASE (Padrão - {s.rase(img_original, img_original)})')

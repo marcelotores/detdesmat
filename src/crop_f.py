@@ -40,7 +40,8 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20, n_arqu
             ## Convertendo imagens para numpy
             patch_numpy = ut.ndarray_pil(patch, False)
             imagem_original_numpy = ut.ndarray_pil(imagem_original_pil, False)
-            imagem_original_numpy_manter = imagem_original_numpy
+            nova_imagem = imagem_original_numpy
+            #imagem_original_numpy_manter = imagem_original_numpy
 
             #patch_numpy = np.array(patch)
             #imagem_original_numpy = np.array(imagem_original_pil)
@@ -61,27 +62,27 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20, n_arqu
             ## Apenas dar destaque a cor do patch
             #patch_numpy = cv.cvtColor(patch_numpy, cv.COLOR_BGR2RGB)
 
-            imagem_original_numpy[int(novo_top):int(novo_bottom), int(novo_left):int(novo_right)] = patch_numpy
+            nova_imagem[int(novo_top):int(novo_bottom), int(novo_left):int(novo_right)] = patch_numpy
 
 
             ################## Recorta imagem no limte da mudança ##################
             if (left < int(novo_left)) or (top < int(novo_top)):
-                novo_patch = ut.corta(ut.ndarray_pil(imagem_original_numpy), left, top, int(novo_right), int(novo_bottom))
-                patch = ut.corta(ut.ndarray_pil(imagem_original_numpy_manter), left, top, int(novo_right), int(novo_bottom))
+                novo_patch = ut.corta(ut.ndarray_pil(nova_imagem), left, top, int(novo_right), int(novo_bottom))
+                ##patch = ut.corta(ut.ndarray_pil(imagem_original_numpy), left, top, int(novo_right), int(novo_bottom))
 
             elif (int(novo_left) < left) or (int(novo_bottom) < top):
-                novo_patch = ut.corta(ut.ndarray_pil(imagem_original_numpy), int(novo_left), int(novo_top), right, bottom)
-                patch = ut.corta(ut.ndarray_pil(imagem_original_numpy_manter), int(novo_left), int(novo_top), right, bottom)
+                novo_patch = ut.corta(ut.ndarray_pil(nova_imagem), int(novo_left), int(novo_top), right, bottom)
+                ##patch = ut.corta(ut.ndarray_pil(imagem_original_numpy), int(novo_left), int(novo_top), right, bottom)
 
             else:
-                novo_patch = ut.corta(ut.ndarray_pil(imagem_original_numpy), left, top, right, bottom)
-                patch = ut.corta(ut.ndarray_pil(imagem_original_numpy_manter), left, top, right, bottom)
+                novo_patch = ut.corta(ut.ndarray_pil(nova_imagem), left, top, right, bottom)
+                ##patch = ut.corta(ut.ndarray_pil(imagem_original_numpy), left, top, right, bottom)
             ###################                Fim                ##################
 
             #cv.imwrite(f"/home/marcelo/projetos/mestrado/pesquisa/detdesmat/imagens/encaixa_patch/{count}.jpg", novo_patch)
 
-            #cv.imwrite(f"/home/infra/PycharmProjects/mestrado/pesquisa/detdesmat/imagens/encaixa_patch/{count}.jpg", ut.ndarray_pil(novo_patch, False))
-            #cv.imwrite(f"/home/infra/PycharmProjects/mestrado/pesquisa/detdesmat/imagens/patch_manter/{count}.jpg", ut.ndarray_pil(patch, False))
+            cv.imwrite(f"/home/infra/PycharmProjects/mestrado/pesquisa/detdesmat/imagens/encaixa_patch/{count}.jpg", ut.ndarray_pil(novo_patch, False))
+            ##cv.imwrite(f"/home/infra/PycharmProjects/mestrado/pesquisa/detdesmat/imagens/patch_manter/{count}.jpg", ut.ndarray_pil(patch, False))
             ##cv.imwrite(f"/home/marcelo/projetos/mestrado/pesquisa/detdesmat/imagens/encaixa/{count}.jpg", imagem_original_numpy)
 
             #Image.fromarray(imagem_original_numpy).save(f"../imagens/encaixa/{count}.jpg")
