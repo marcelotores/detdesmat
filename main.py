@@ -13,6 +13,7 @@ from src import utilidades as ut
 
 img_original = cv.imread("imagens/1.jpg")
 rep, good, novas_imagens_coord = crop(ut.ndarray_pil(img_original), 85, 85, 20, 'segundo_teste')
+
 exit()
 
 img_original = cv.imread("imagens/1.jpg")
@@ -20,8 +21,6 @@ img_original = cv.imread("imagens/1.jpg")
 
 imagem_original_pil = Image.open(r"imagens/1.jpg")
 
-print(round(0.519287109375))
-exit()
 
 ruidos = ['s&p', 'speckle']
 
