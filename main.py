@@ -11,7 +11,7 @@ from src import utilidades as ut
 # Após, aplica o ruído a imagem por um laço para todos os ruídos do vetor,
 # Dentro do laço, para cada imagem com ruído, já vai calculando a repetibilidade e correspondêncis.
 
-img_original = cv.imread("imagens/1.jpg")
+img_original = cv.imread("imagens/gaussian.jpg")
 rep, good, novas_imagens_coord = crop(ut.ndarray_pil(img_original), 85, 85, 20, 'segundo_teste')
 
 exit()
@@ -22,15 +22,16 @@ img_original = cv.imread("imagens/1.jpg")
 imagem_original_pil = Image.open(r"imagens/1.jpg")
 
 
-ruidos = ['s&p', 'speckle']
+ruidos = ['s&p', 'speckle', 'poisson', 'gaussian']
 
 
 for r in ruidos:
     noise_img = random_noise(img_original, mode=f'{r}')
     noise_img = np.array(255 * noise_img, dtype='uint8')
+    cv.imwrite(f"/home/infra/PycharmProjects/mestrado/pesquisa/detdesmat/imagens/{r}.jpg", noise_img)
     #rep, good = crop(ut.ndarray_pil(noise_img), 85, 85, 20, r)
 
 ## OU
 
-img_original = cv.imread("imagens/1.jpg")
-rep, good, novas_imagens_coord = crop(ut.ndarray_pil(img_original), 85, 85, 20, 'segundo_teste')
+#img_original = cv.imread("imagens/1.jpg")
+#rep, good, novas_imagens_coord = crop(ut.ndarray_pil(img_original), 85, 85, 20, 'segundo_teste')

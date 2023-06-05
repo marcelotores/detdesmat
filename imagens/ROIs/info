@@ -1,0 +1,11 @@
+-- Informações Imagens --
+
+As imagens aqui presentes estão divididas nas seguintes categorias:
+
+---- Imagens Originais:  Imagens sem nenhum tipo de filtro ou ruído (diretório original)
+---------- Sem encaixe: São os recortes originais das imagens (sem_encaixe)
+---------- Com encaixe: São os recortes após a imagem ser encaixada na outra (com_encaixe)
+
+---- Sal e Pimenta: Imagens com ruído Sal & Pimenta (diretório s&p)
+---------- Sem encaixe: São os recortes de sal e pimenta das imagens (sem_encaixe)
+---------- Com encaixe: São os recortes após a imagem ser encaixada na outra (com_encaixe)
