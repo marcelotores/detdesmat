@@ -25,7 +25,7 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20, n_arqu
     goods = []
     distance = []
     novas_imagens_coord = []
-
+    te = 0
     for left in range(0, width, aument):
         right = left + patch_width
         if right > width:
@@ -59,10 +59,38 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20, n_arqu
             print(novo_left, novo_right, novo_top, novo_bottom)
 
             novas_imagens_coord.append([novo_left, novo_top, novo_right, novo_bottom, distancia_total])
+
             ## Apenas dar destaque a cor do patch
             #patch_numpy = cv.cvtColor(patch_numpy, cv.COLOR_BGR2RGB)
 
-            nova_imagem[int(novo_top):int(novo_bottom), int(novo_left):int(novo_right)] = patch_numpy
+            ############### Teste ##############
+
+            if novo_right > imagem_original_numpy.shape[1] or novo_bottom > imagem_original_numpy.shape[0]:
+
+                # if novo_right > imagem_original_numpy.shape[1] and novo_bottom <= imagem_original_numpy.shape[0]:
+                #     largura_patch = imagem_original_numpy.shape[1] - novo_left
+                #     nova_imagem[int(novo_top):int(novo_bottom), int(novo_left):int(novo_right)] = patch_numpy[
+                #                                                                                   0:85,
+                #                                                                                   0:largura_patch]
+                #
+                # if novo_bottom > imagem_original_numpy.shape[0] and novo_right <= imagem_original_numpy.shape[1]:
+                #     altura_patch = imagem_original_numpy.shape[0] - novo_top
+                #     nova_imagem[int(novo_top):int(novo_bottom), int(novo_left):int(novo_right)] = patch_numpy[
+                #                                                                                   0:altura_patch,
+                #                                                                                   0:85]
+                # if novo_right > imagem_original_numpy.shape[1] and novo_bottom > imagem_original_numpy.shape[0]:
+                #     largura_patch = imagem_original_numpy.shape[1] - novo_left
+                #     altura_patch = imagem_original_numpy.shape[0] - novo_top
+                #     nova_imagem[int(novo_top):int(novo_bottom), int(novo_left):int(novo_right)] = patch_numpy[
+                #                                                                                   0:altura_patch,
+                #                                                                                   0:largura_patch]
+                te+=1
+                continue
+            else:
+                nova_imagem[int(novo_top):int(novo_bottom), int(novo_left):int(novo_right)] = patch_numpy
+
+            #####################################
+            #nova_imagem[int(novo_top):int(novo_bottom), int(novo_left):int(novo_right)] = patch_numpy
 
 
             ################## Recorta imagem no limte da mudança ##################
@@ -82,8 +110,8 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20, n_arqu
             #cv.imwrite(f"/home/marcelo/projetos/mestrado/pesquisa/detdesmat/imagens/encaixa_patch/{count}.jpg", novo_patch)
 
             cv.imwrite(f"/home/infra/PycharmProjects/mestrado/pesquisa/detdesmat/imagens/encaixa_patch/{count}.jpg", ut.ndarray_pil(novo_patch, False))
-            ##cv.imwrite(f"/home/infra/PycharmProjects/mestrado/pesquisa/detdesmat/imagens/patch_manter/{count}.jpg", ut.ndarray_pil(patch, False))
-            ##cv.imwrite(f"/home/marcelo/projetos/mestrado/pesquisa/detdesmat/imagens/encaixa/{count}.jpg", imagem_original_numpy)
+            cv.imwrite(f"/home/infra/PycharmProjects/mestrado/pesquisa/detdesmat/imagens/patch_manter/{count}.jpg", ut.ndarray_pil(patch, False))
+            #cv.imwrite(f"/home/infra/PycharmProjects/mestrado/pesquisa/detdesmat/imagens/encaixa/{count}.jpg", imagem_original_numpy)
 
             #Image.fromarray(imagem_original_numpy).save(f"../imagens/encaixa/{count}.jpg")
             #Image.fromarray(imagem_original_numpy).save(f"../imagens/patchs/Patch {count}.jpg")
@@ -153,7 +181,7 @@ def crop(imagem_original_pil, patch_width=85, patch_height=85, aument=20, n_arqu
         my_file.write(f'Quantidade de Patchs = {count}\n')
         my_file.write(f'Tamanho Imagem Original = {imagem_original_numpy.shape}\n')
         my_file.write(f'Tamanho de cada Patch = {patch_numpy.shape}\n')
-
+    print("quantidade:", te)
     return np.array(rep), np.array(goods), novas_imagens_coord
 
 #imagem_original_pil = Image.open(r"../imagens/1.jpg")
