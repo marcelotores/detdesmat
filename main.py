@@ -4,6 +4,7 @@ from matplotlib import pyplot as plt
 from PIL import Image
 import src.plots as pl
 from src.crop_f import crop
+from src.new_crop import crop
 from skimage.util import random_noise
 from src import utilidades as ut
 
@@ -12,6 +13,7 @@ from src import utilidades as ut
 # Dentro do laço, para cada imagem com ruído, já vai calculando a repetibilidade e correspondêncis.
 
 img_original = cv.imread("imagens/gaussian.jpg")
+#img_original = cv.imread("imagens/1.jpg")
 rep, good, novas_imagens_coord = crop(ut.ndarray_pil(img_original), 85, 85, 20, 'segundo_teste')
 
 exit()

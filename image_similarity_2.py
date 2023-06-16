@@ -50,7 +50,7 @@ for filename in listdir(path_img_def_caminho):
             vifp.append(s.vifp(img_original, img_def))
             #print(path_img_def_caminho_comp, path_img_def_caminho_original_comp)
             #print(path_img_def_caminho_original_comp)
-print(mse)
+
 
 
 #plots.hist(mse, 'Similaridade', 'Quantidade de Imagens', f'MSE-2 (Padrão - {s.mse(img_original, img_original)})')
